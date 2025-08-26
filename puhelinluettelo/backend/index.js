@@ -1,6 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
+
+app.use(cors())
+app.use(express.json())
 
 let persons = [
     {
@@ -25,7 +29,7 @@ let persons = [
     }
 ]
 
-app.use(express.json())
+
 
 morgan.token('body', (req) => {
     return JSON.stringify(req.body)
@@ -59,7 +63,7 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = request.params.id
-    const person = persons.filter(person => person.id !== id)
+    persons = persons.filter(person => person.id !== id)
 
     response.status(204).end()
 })
